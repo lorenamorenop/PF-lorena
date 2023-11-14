@@ -11,7 +11,7 @@ function comprobarRespuesta(preguntas, respuestaUsuario) {
 }
 
 //AGREGAR OBJETOS 
-let arrayDePreguntas = [
+    let arrayDePreguntas = [
     new Preguntas("La clorofila es responsable del color verde en las plantas",true),
     new Preguntas("La energía no se crea ni se destruye, solo se transforma",true),
     new Preguntas("El hombre pisó la luna por primera vez en el año 1950",false),
@@ -25,9 +25,6 @@ let arrayDePreguntas = [
     new Preguntas("El carbono está presente en absolutamente todas las moléculas orgánicas", true),
     new Preguntas ("El Sol está más cerca de la Tierra en el mes de Diciembre.", true)
 ]
-
-
-
 function ejecutarTest() {
     let puntaje = 0;
 
@@ -35,17 +32,19 @@ function ejecutarTest() {
         let respuesta;
         do {
             respuesta = prompt(preguntas.enunciado + " (Escribé verdadero o falso)").toLowerCase();
-            if (!comprobarRespuesta(preguntas, respuesta)) {
-                alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
+        
+            if (respuesta === 'verdadero' || respuesta === 'falso' || respuesta === 'v' || respuesta === 'f') {
+                if (comprobarRespuesta(preguntas, respuesta === 'verdadero' || respuesta === 'v')) {
+                    puntaje++;
+                }
+            } else {
+                alert("Respuesta incorrecta. Por favor, responde Verdadero o Falso.");
             }
-        } while (!comprobarRespuesta(preguntas, respuesta));
-
-        puntaje++;
+        } while (respuesta !== 'verdadero' && respuesta !== 'falso' && respuesta !== 'v' && respuesta !== 'f');
     });
 
     alert("Has obtenido " + puntaje + " respuestas correctas de " + arrayDePreguntas.length);
 }
-
 
 ejecutarTest();
 
