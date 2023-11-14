@@ -43,7 +43,7 @@ function ejecutarTest() {
         puntaje++;
     });
 
-    alert("Has obtenido " + puntaje + " respuestas correctas de " + preguntas.length);
+    alert("Has obtenido " + puntaje + " respuestas correctas de " + arrayDePreguntas.length);
 }
 
 
