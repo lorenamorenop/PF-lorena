@@ -1,6 +1,43 @@
+//Traigo dos botones, uno para ingresa el nombre de la persona y darle la bienvenida. 
+//Otro para empezar el test
+
+let botonComenzar = document.getElementById("botonComenzar");
+let botonEjecutar = document.getElementById("botonEjecutar");
+let nombreUsuario = document.getElementById("nombreUsuarioInput");
+// let respuestaPreguntas = document.getElementById("respuestaPreguntas");
 
 
-//funcion constructora que luego usare en el array
+//oculto el boton comenzar ya que quiero luego usarlo una vez que haya saludado al usuario y uso un evento para llamar mi funcion 
+botonEjecutar.style.display = "none";
+// respuestaPreguntas.style.display = "none";
+
+botonComenzar.addEventListener("click", function() {
+    saludo();
+});
+
+//crea una funcion y por parametro le doy como valor el id de los div y otro que se llame "mensaje" que voy a usar debajo dentro de mi condicional para el saludo al usuario
+
+function mostrarMensaje(idDiv, mensaje) {
+    let div = document.getElementById(idDiv);
+    div.innerHTML = "<p>" + mensaje + "</p>";
+}
+
+//creo la funcion saludo (ahora muestro el boton comenzar test y oculto el boton ingresar)
+function saludo() {
+    let respuestaSaludo = nombreUsuario.value;
+
+    if (respuestaSaludo !== "") {
+        mostrarMensaje("bienvenida", "Bienvenid@ " + respuestaSaludo + "!");
+        mostrarMensaje("inicioTest", "A continuación comenzaremos con el test, solo tenes que responder Verdadero o Falso")
+        botonComenzar.style.display = "none";
+        botonEjecutar.style.display = "inline-block";
+        botonEjecutar.addEventListener("click", ejecutarTest);
+        
+    } else {
+        alert("El usuario ingresado es incorrecto, intente de nuevo");
+    }
+}
+
 function Preguntas(enunciado, valor) {
     this.enunciado = enunciado;
     this.valor = valor;
@@ -27,46 +64,22 @@ function comprobarRespuesta(preguntas, respuestaUsuario) {
 ]
 function ejecutarTest() {
     let puntaje = 0;
+    // respuestaPreguntas.style.display = "inline-block";
 
     arrayDePreguntas.forEach(function(preguntas) {
         let respuesta;
         do {
-            respuesta = prompt(preguntas.enunciado + " (Escribé verdadero o falso)").toLowerCase();
-        
-            if (respuesta === 'verdadero' || respuesta === 'falso' || respuesta === 'v' || respuesta === 'f') {
-                if (comprobarRespuesta(preguntas, respuesta === 'verdadero' || respuesta === 'v')) {
+            respuesta = prompt(preguntas.enunciado + " (Escribé verdadero o falso)").toLowerCase();     
+            if (respuesta === 'verdadero' || respuesta === 'falso') {
+                if (comprobarRespuesta(preguntas, respuesta === 'verdadero')) {
                     puntaje++;
                 }
             } else {
-                alert("Respuesta incorrecta. Por favor, responde Verdadero o Falso.");
+                alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
             }
-        } while (respuesta !== 'verdadero' && respuesta !== 'falso' && respuesta !== 'v' && respuesta !== 'f');
-    });
-
-    alert("Has obtenido " + puntaje + " respuestas correctas de " + arrayDePreguntas.length);
+        } while (respuesta !== 'verdadero' && respuesta !== 'falso');
+    })
 }
 
-ejecutarTest();
 
-//HACER UN SWITCH DE VALORES CASE SI RETURN 1 CASE NO RETURN -1 CASE INDIFERENTE RETURN 0
-// let valor = function (a, b, c) {
-//         a == 1;
-//         b == -1;
-//         c == 0;
-// }
-//function("VERDADERO", "FALSO")
-
-//let suma = suma + valor
-
-// for (let i = 0; i < arrayDePreguntas.length; i++) {
-//     let respuesta = ''
-//     while(respuesta !== 'verdadero' || respuesta !== 'falso'){
-//         respuesta = prompt (arrayDePreguntas[i]).toLowerCase
-//         if ( respuesta !== 'verdadero' || respuesta !== 'falso') {
-//             alert("solo se acepta VERDADERO ó FALSO")
-//         }
-        
-//     }
-
-// }
 
