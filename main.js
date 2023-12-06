@@ -4,12 +4,12 @@
 let botonComenzar = document.getElementById("botonComenzar");
 let botonEjecutar = document.getElementById("botonEjecutar");
 let nombreUsuario = document.getElementById("nombreUsuarioInput");
-// let respuestaPreguntas = document.getElementById("respuestaPreguntas");
-
+let contenedor = document.getElementById("contenedor");
 
 //oculto el boton comenzar ya que quiero luego usarlo una vez que haya saludado al usuario y uso un evento para llamar mi funcion 
+
 botonEjecutar.style.display = "none";
-// respuestaPreguntas.style.display = "none";
+contenedor.style.display = "none";
 
 botonComenzar.addEventListener("click", function() {
     saludo();
@@ -31,7 +31,9 @@ function saludo() {
         mostrarMensaje("inicioTest", "A continuación comenzaremos con el test, solo tenes que responder Verdadero o Falso")
         botonComenzar.style.display = "none";
         botonEjecutar.style.display = "inline-block";
+        contenedor.style.display = "block"; 
         botonEjecutar.addEventListener("click", ejecutarTest);
+
         
     } else {
         alert("El usuario ingresado es incorrecto, intente de nuevo");
@@ -62,24 +64,58 @@ function comprobarRespuesta(preguntas, respuestaUsuario) {
     new Preguntas("El carbono está presente en absolutamente todas las moléculas orgánicas", true),
     new Preguntas ("El Sol está más cerca de la Tierra en el mes de Diciembre.", true)
 ]
-function ejecutarTest() {
-    let puntaje = 0;
-    // respuestaPreguntas.style.display = "inline-block";
 
-    arrayDePreguntas.forEach(function(preguntas) {
-        let respuesta;
-        do {
-            respuesta = prompt(preguntas.enunciado + " (Escribé verdadero o falso)").toLowerCase();     
-            if (respuesta === 'verdadero' || respuesta === 'falso') {
-                if (comprobarRespuesta(preguntas, respuesta === 'verdadero')) {
-                    puntaje++;
-                }
-            } else {
-                alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
+
+
+let puntaje = 0;
+let currentIndex = 0;
+let respuestasUsuario = [];
+
+function mostrarPregunta(pregunta) {
+    contenedor.innerHTML = "";
+
+    // creo un parrafo para los enunciados 
+    let preguntaParrafo = document.createElement("p");
+    preguntaParrafo.textContent = pregunta.enunciado;
+    contenedor.appendChild(preguntaParrafo);
+
+    // luego creo un input para que el usuario escriba la respuesta
+    let inputRespuesta = document.createElement("input");
+    inputRespuesta.type = "text";
+    inputRespuesta.id = "respuestaInput";
+    contenedor.appendChild(inputRespuesta);
+
+    // tambien creo un botón de "siguiente pregunta"
+    let botonSiguiente = document.createElement("button");
+    botonSiguiente.textContent = "Siguiente Pregunta";
+    contenedor.appendChild(botonSiguiente);
+
+    // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
+    botonSiguiente.addEventListener("click", function() {
+        let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
+        respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
+
+        if (respuestaUsuario === 'verdadero' || respuestaUsuario === 'falso') {
+            if (comprobarRespuesta(pregunta, respuestaUsuario === 'verdadero')) {
+                puntaje++;
             }
-        } while (respuesta !== 'verdadero' && respuesta !== 'falso');
-    })
+
+            // Muestra la siguiente pregunta si hay más, o muestra el puntaje final
+            currentIndex++;
+            if (currentIndex < arrayDePreguntas.length) {
+                mostrarPregunta(arrayDePreguntas[currentIndex]);
+            } else {
+                mostrarResultado();
+            }
+        } else {
+            alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
+        }
+    });
 }
 
+function mostrarResultado() {
+    contenedor.innerHTML = "<p>Has obtenido " + puntaje + " respuestas correctas de " + arrayDePreguntas.length + "</p>";
+}
 
+mostrarPregunta(arrayDePreguntas[currentIndex]);
 
