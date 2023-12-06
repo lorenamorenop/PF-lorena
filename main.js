@@ -57,7 +57,7 @@ let puntaje = 0;
 let currentIndex = 0;
 let respuestasUsuario = [];
 
-// Uso un local storage para que en caso de que el usuario vuelva a reiniciar la pagina, quede la pregunta en la que estaba respondiendo 
+// Uso un local storage para que en caso de que el usuario vuelva a reiniciar la pagina o la cierre por error, quede en la pregunta que estaba respondiendo 
 let currentIndexGuardado = localStorage.getItem('currentIndex');
 let preguntaActualGuardada = localStorage.getItem('preguntaActual');
 currentIndex = currentIndexGuardado ? parseInt(currentIndexGuardado) : 0;
