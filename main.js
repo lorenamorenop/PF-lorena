@@ -1,28 +1,20 @@
-//Traigo dos botones, uno para ingresa el nombre de la persona y darle la bienvenida. 
-//Otro para empezar el test
-
+//Traigo un boton para ingresa el nombre de la persona y darle la bienvenida y el contenedor donde va a suceder el test. 
 let botonComenzar = document.getElementById("botonComenzar");
-let botonEjecutar = document.getElementById("botonEjecutar");
 let nombreUsuario = document.getElementById("nombreUsuarioInput");
 let contenedor = document.getElementById("contenedor");
 
-//oculto el boton comenzar ya que quiero luego usarlo una vez que haya saludado al usuario y uso un evento para llamar mi funcion 
 
-botonEjecutar.style.display = "none";
+//oculto mi contenedor ya que quiero que se muestre una vez que el usuario ha ingresado su nombre y ha hecho click en "comenzar test" y uso un evento para la funcion saludar.
 contenedor.style.display = "none";
+botonComenzar.addEventListener("click", saludo)
 
-botonComenzar.addEventListener("click", function() {
-    saludo();
-});
-
-//crea una funcion y por parametro le doy como valor el id de los div y otro que se llame "mensaje" que voy a usar debajo dentro de mi condicional para el saludo al usuario
-
+//creo una funcion y por parametro le doy como valor el id de los div y otro que se llame "mensaje" que voy a usar debajo dentro de mi condicional para el saludo al usuario
 function mostrarMensaje(idDiv, mensaje) {
     let div = document.getElementById(idDiv);
     div.innerHTML = "<p>" + mensaje + "</p>";
 }
 
-//creo la funcion saludo (ahora muestro el boton comenzar test y oculto el boton ingresar)
+//creo la funcion saludo (oculto el boton ingresar) y muestro mi contenedor
 function saludo() {
     let respuestaSaludo = nombreUsuario.value;
 
@@ -30,11 +22,7 @@ function saludo() {
         mostrarMensaje("bienvenida", "Bienvenid@ " + respuestaSaludo + "!");
         mostrarMensaje("inicioTest", "A continuación comenzaremos con el test, solo tenes que responder Verdadero o Falso")
         botonComenzar.style.display = "none";
-        botonEjecutar.style.display = "inline-block";
-        contenedor.style.display = "block"; 
-        botonEjecutar.addEventListener("click", ejecutarTest);
-
-        
+        contenedor.style.display = "block";         
     } else {
         alert("El usuario ingresado es incorrecto, intente de nuevo");
     }
@@ -65,11 +53,14 @@ function comprobarRespuesta(preguntas, respuestaUsuario) {
     new Preguntas ("El Sol está más cerca de la Tierra en el mes de Diciembre.", true)
 ]
 
-
-
 let puntaje = 0;
 let currentIndex = 0;
 let respuestasUsuario = [];
+
+// Uso un local storage para que en caso de que el usuario vuelva a reiniciar la pagina, quede la pregunta en la que estaba respondiendo 
+let currentIndexGuardado = localStorage.getItem('currentIndex');
+let preguntaActualGuardada = localStorage.getItem('preguntaActual');
+currentIndex = currentIndexGuardado ? parseInt(currentIndexGuardado) : 0;
 
 function mostrarPregunta(pregunta) {
     contenedor.innerHTML = "";
@@ -91,7 +82,7 @@ function mostrarPregunta(pregunta) {
     contenedor.appendChild(botonSiguiente);
 
     // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
-    botonSiguiente.addEventListener("click", function() {
+        botonSiguiente.addEventListener("click", function() {
         let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
         respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
 
@@ -100,7 +91,6 @@ function mostrarPregunta(pregunta) {
                 puntaje++;
             }
 
-            // Muestra la siguiente pregunta si hay más, o muestra el puntaje final
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
@@ -111,8 +101,13 @@ function mostrarPregunta(pregunta) {
             alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
         }
     });
+    guardarEstadoActual();
 }
 
+function guardarEstadoActual() {
+    localStorage.setItem('currentIndex', currentIndex.toString());
+    localStorage.setItem('preguntaActual', JSON.stringify(arrayDePreguntas[currentIndex]));
+}
 function mostrarResultado() {
     contenedor.innerHTML = "<p>Has obtenido " + puntaje + " respuestas correctas de " + arrayDePreguntas.length + "</p>";
 }
