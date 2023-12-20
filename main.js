@@ -80,9 +80,32 @@ function mostrarPregunta(pregunta) {
     let botonSiguiente = document.createElement("button");
     botonSiguiente.textContent = "Siguiente Pregunta";
     contenedor.appendChild(botonSiguiente);
+    //Establezco un límite de tiempo de 30 segundos para que la persona responda cada pregunta. Si el tiempo supera el límite de 30 segundos, muestra una alerta y pasa a la siguiente pregunta. Tambien uso clearInterval para limpiar el intervalo de tiempo al hacer clic en "Siguiente Pregunta" para evitar que la verificación de tiempo continúe después de responder la pregunta.
+    let tiempoAgotadoAlerta = false;
+    let tiempoLimite = 30000; 
+    let tiempoInicio = Date.now();
+    
+    function verificarTiempo() {
+            let tiempoTranscurrido = Date.now() - tiempoInicio;
+            if (tiempoTranscurrido >= tiempoLimite) {
+                tiempoAgotadoAlerta = true;
+                alert("¡Tiempo agotado! La respuesta no fue registrada.");
+                currentIndex++;
+                if (currentIndex < arrayDePreguntas.length) {
+                    tiempoAgotadoAlerta = false;
+                    mostrarPregunta(arrayDePreguntas[currentIndex]);
+                } else {
+                    mostrarResultado();
+                }
+            }
+        }
+    
+        let intervaloTiempo = setInterval(verificarTiempo, 1000);
+    
 
     // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
         botonSiguiente.addEventListener("click", function() {
+            clearInterval = intervaloTiempo
         let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
         respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
 
@@ -90,7 +113,6 @@ function mostrarPregunta(pregunta) {
             if (comprobarRespuesta(pregunta, respuestaUsuario === 'verdadero')) {
                 puntaje++;
             }
-
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
@@ -99,6 +121,7 @@ function mostrarPregunta(pregunta) {
             }
         } else {
             alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
+            guardarEstadoActual();
         }
     });
     guardarEstadoActual();
@@ -113,4 +136,3 @@ function mostrarResultado() {
 }
 
 mostrarPregunta(arrayDePreguntas[currentIndex]);
-
