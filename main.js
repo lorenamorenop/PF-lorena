@@ -24,7 +24,12 @@ function saludo() {
         botonComenzar.style.display = "none";
         contenedor.style.display = "block";         
     } else {
-        alert("El usuario ingresado es incorrecto, intente de nuevo");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El usuario ingresado es incorrecto, intente de nuevo",
+            footer: '<a href="#">Why do I have this issue?</a>'
+        });
     }
 }
 
@@ -92,7 +97,12 @@ function mostrarPregunta(pregunta) {
         let tiempoTranscurrido = Date.now() - tiempoInicio;
         if (tiempoTranscurrido >= tiempoLimite) {
             tiempoAgotadoAlerta = true;
-            alert("¡Tiempo agotado! La respuesta no fue registrada.");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Tiempo agotado!!.La respuesta no fue registrada",
+                footer: '<a href="#">Why do I have this issue?</a>'
+            });
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
                 tiempoAgotadoAlerta = false;
@@ -125,12 +135,14 @@ function mostrarPregunta(pregunta) {
                 mostrarResultado();
             }
         } else {
-            alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Respuesta incorrecta. Por favor, responde verdadero o falso.",
+                footer: '<a href="#">Why do I have this issue?</a>'
+            });
         }
     });
-    if (currentIndex < arrayDePreguntas.length) {
-        guardarEstadoActual();
-    }
 }
 //Utilizo el API de localStorage para guardar y recuperar el estado actual del test, como el índice actual y la pregunta actual.
 function guardarEstadoActual() {
