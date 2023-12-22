@@ -32,7 +32,7 @@ function Preguntas(enunciado, valor) {
     this.enunciado = enunciado;
     this.valor = valor;
 }
-
+//Creo una funcion que compara la respuesta del usuario con el valor de la pregunta y devuelve true o false.
 function comprobarRespuesta(preguntas, respuestaUsuario) {
     return preguntas.valor === respuestaUsuario;
 }
@@ -52,6 +52,7 @@ function comprobarRespuesta(preguntas, respuestaUsuario) {
     new Preguntas("El carbono está presente en absolutamente todas las moléculas orgánicas", true),
     new Preguntas ("El Sol está más cerca de la Tierra en el mes de Diciembre.", true)
 ]
+//Defino las variables puntaje, currentIndex y respuestasUsuario para llevar registro del puntaje del usuario, el índice actual de la pregunta y las respuestas dadas por el usuario.
 
 let puntaje = 0;
 let currentIndex = 0;
@@ -80,32 +81,35 @@ function mostrarPregunta(pregunta) {
     let botonSiguiente = document.createElement("button");
     botonSiguiente.textContent = "Siguiente Pregunta";
     contenedor.appendChild(botonSiguiente);
+
     //Establezco un límite de tiempo de 30 segundos para que la persona responda cada pregunta. Si el tiempo supera el límite de 30 segundos, muestra una alerta y pasa a la siguiente pregunta. Tambien uso clearInterval para limpiar el intervalo de tiempo al hacer clic en "Siguiente Pregunta" para evitar que la verificación de tiempo continúe después de responder la pregunta.
+
     let tiempoAgotadoAlerta = false;
-    let tiempoLimite = 30000; 
+    let tiempoLimite = 30000;
     let tiempoInicio = Date.now();
     
     function verificarTiempo() {
-            let tiempoTranscurrido = Date.now() - tiempoInicio;
-            if (tiempoTranscurrido >= tiempoLimite) {
-                tiempoAgotadoAlerta = true;
-                alert("¡Tiempo agotado! La respuesta no fue registrada.");
-                currentIndex++;
-                if (currentIndex < arrayDePreguntas.length) {
-                    tiempoAgotadoAlerta = false;
-                    mostrarPregunta(arrayDePreguntas[currentIndex]);
-                } else {
-                    mostrarResultado();
-                }
+        let tiempoTranscurrido = Date.now() - tiempoInicio;
+        if (tiempoTranscurrido >= tiempoLimite) {
+            tiempoAgotadoAlerta = true;
+            alert("¡Tiempo agotado! La respuesta no fue registrada.");
+            currentIndex++;
+            if (currentIndex < arrayDePreguntas.length) {
+                tiempoAgotadoAlerta = false;
+                guardarEstadoActual(currentIndex); 
+                mostrarPregunta(arrayDePreguntas[currentIndex]);
+            } else {
+                mostrarResultado();
             }
         }
+    }
     
         let intervaloTiempo = setInterval(verificarTiempo, 1000);
     
 
     // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
-        botonSiguiente.addEventListener("click", function() {
-            clearInterval = intervaloTiempo
+    botonSiguiente.addEventListener("click", function() {
+        clearInterval(intervaloTiempo);
         let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
         respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
 
@@ -115,18 +119,20 @@ function mostrarPregunta(pregunta) {
             }
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
+                guardarEstadoActual();
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
             } else {
                 mostrarResultado();
             }
         } else {
             alert("Respuesta incorrecta. Por favor, responde verdadero o falso.");
-            guardarEstadoActual();
         }
     });
-    guardarEstadoActual();
+    if (currentIndex < arrayDePreguntas.length) {
+        guardarEstadoActual();
+    }
 }
-
+//Utilizo el API de localStorage para guardar y recuperar el estado actual del test, como el índice actual y la pregunta actual.
 function guardarEstadoActual() {
     localStorage.setItem('currentIndex', currentIndex.toString());
     localStorage.setItem('preguntaActual', JSON.stringify(arrayDePreguntas[currentIndex]));
