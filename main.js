@@ -99,8 +99,8 @@ function mostrarPregunta(pregunta) {
             });
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
-                tiempoAgotadoAlerta = false;
                 guardarEstadoActual(currentIndex); 
+                tiempoAgotadoAlerta = false;
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
             } else {
                 mostrarResultado();
