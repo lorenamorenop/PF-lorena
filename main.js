@@ -120,6 +120,7 @@ function mostrarPregunta(pregunta) {
     // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
     botonSiguiente.addEventListener("click", function() {
         clearInterval(intervaloTiempo);
+        tiempoAgotadoAlerta = false;
         let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
         respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
 
