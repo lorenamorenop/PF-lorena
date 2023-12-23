@@ -103,13 +103,11 @@ function mostrarPregunta(pregunta) {
                 text: "Tiempo agotado!!.La respuesta no fue registrada",
                 footer: '<a href="#">Why do I have this issue?</a>'
             });
-            clearInterval(intervaloTiempo);
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
                 tiempoAgotadoAlerta = false;
                 guardarEstadoActual(currentIndex); 
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
-                intervaloTiempo = setInterval(verificarTiempo, 1000);
             } else {
                 mostrarResultado();
             }
@@ -122,7 +120,6 @@ function mostrarPregunta(pregunta) {
     // creo un evento para que cada vez que el usuario escriba su respuesta y haga click se guarde (push) en mi array respuesta usuario
     botonSiguiente.addEventListener("click", function() {
         clearInterval(intervaloTiempo);
-        tiempoAgotadoAlerta = false;
         let respuestaUsuario = inputRespuesta.value.trim().toLowerCase();
         respuestasUsuario.push({ pregunta: pregunta.enunciado, respuesta: respuestaUsuario });
 
@@ -141,7 +138,7 @@ function mostrarPregunta(pregunta) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Respuesta incorrecta. Por favor, responde verdadero o falso.",
+                text: "Something went wrong!",
                 footer: '<a href="#">Why do I have this issue?</a>'
             });
         }
