@@ -103,11 +103,13 @@ function mostrarPregunta(pregunta) {
                 text: "Tiempo agotado!!.La respuesta no fue registrada",
                 footer: '<a href="#">Why do I have this issue?</a>'
             });
+            clearInterval(intervaloTiempo);
             currentIndex++;
             if (currentIndex < arrayDePreguntas.length) {
                 tiempoAgotadoAlerta = false;
                 guardarEstadoActual(currentIndex); 
                 mostrarPregunta(arrayDePreguntas[currentIndex]);
+                intervaloTiempo = setInterval(verificarTiempo, 1000);
             } else {
                 mostrarResultado();
             }
