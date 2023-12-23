@@ -20,7 +20,7 @@ function saludo() {
 
     if (respuestaSaludo !== "") {
         mostrarMensaje("bienvenida", "Bienvenid@ " + respuestaSaludo + "!");
-        mostrarMensaje("inicioTest", "A continuación comenzaremos con el test, solo tenes que responder Verdadero o Falso")
+        mostrarMensaje("inicioTest", "A continuación comenzaremos con el test de 12 preguntas, solo tenes que responder Verdadero o Falso")
         botonComenzar.style.display = "none";
         contenedor.style.display = "block";         
     } else {
