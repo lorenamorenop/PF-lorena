@@ -89,7 +89,7 @@ function mostrarPregunta(pregunta) {
     
     function verificarTiempo() {
         let tiempoTranscurrido = Date.now() - tiempoInicio;
-        if (tiempoTranscurrido >= tiempoLimite) {
+        if (tiempoTranscurrido >= tiempoLimite && !tiempoAgotadoAlerta) {
             tiempoAgotadoAlerta = true;
             Swal.fire({
                 icon: "error",
