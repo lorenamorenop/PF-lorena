@@ -1,0 +1,51 @@
+[
+    {
+        "enunciado": "La clorofila es responsable del color verde en las plantas",
+        "valor": true
+    },
+    {
+        "enunciado": "La energía no se crea ni se destruye, solo se transforma",
+        "valor": true
+    },
+    {
+        "enunciado": "El hombre pisó la luna por primera vez en el año 1950",
+        "valor": false
+    },
+    {
+        "enunciado": "Quién pintó 'El grito' fue Edvard Munch",
+        "valor": true
+    },
+    {
+        "enunciado": "España ganó su primer Mundial de fútbol en el año 2006.",
+        "valor": false
+    },
+    {
+        "enunciado": "El primer presidente de los Estados Unidos fue Thomas Jefferson",
+        "valor": false
+    },
+    {
+        "enunciado": "El hígado está en el lado derecho del cuerpo",
+        "valor": true
+    },
+    {
+        "enunciado":"Blancanieves fue la primera película de Disney",
+        "valor": true
+    },
+    {
+        "enunciado":"En un equipo de voleibol hay 7 jugadores",
+        "valor": false
+    },
+    {
+        "enunciado":"Leo Messi nacio en Salta, Argentina",
+        "valor": false
+    },
+    {
+        "enunciado":"El carbono está presente en absolutamente todas las moléculas orgánicas",
+        "valor": true
+    },
+    {
+        "enunciado":"El Sol está más cerca de la Tierra en el mes de Diciembre.",
+        "valor": true
+    }
+
+]
